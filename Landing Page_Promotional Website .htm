@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tidewater Bike Works | Bicycle repair and tune-ups</title>
+<meta name="description" content="Friendly, fast bicycle repair in Portland. Request a tune-up online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ===== COLOURS & FONTS: change these ===== */
+:root{
+  --ink:#0F3D3E; --ink-2:#0A2B2C; --bone:#EEF1EA; --paper:#FAFBF8;
+  --accent:#F2C230; --accent-ink:#2B2200; --steel:#5B6B70; --line:#D5DBD2;
+  --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --nav-h:68px;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h)}
+body{font:400 17px/1.6 var(--body);color:var(--ink-2);background:var(--paper)}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+section{padding:88px 0}
+h1,h2,h3{font-family:var(--display);line-height:1.08;letter-spacing:-.02em}
+h2{font-size:clamp(2rem,4.5vw,3rem);margin-bottom:14px}
+.lead{color:var(--steel);max-width:56ch;margin-bottom:40px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:999px;font:600 16px var(--body);text-decoration:none;border:2px solid transparent;cursor:pointer;transition:transform .15s,background .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-ghost{border-color:currentColor;background:transparent}
+.btn-dark{background:var(--ink);color:#fff}
+
+/* nav */
+header{position:fixed;inset:0 0 auto;height:var(--nav-h);z-index:50;transition:background .25s,box-shadow .25s;color:#fff}
+header.solid{background:rgba(15,61,62,.96);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(255,255,255,.1)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:100%}
+.logo{font:800 1.3rem var(--display);text-decoration:none;letter-spacing:-.02em}
+nav ul{display:flex;gap:28px;list-style:none;padding:0;align-items:center}
+nav a{text-decoration:none;font-weight:500;font-size:15px;opacity:.9}
+nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:6px}
+nav .btn{padding:9px 18px;font-size:14px;opacity:1}
+.burger{display:none;background:none;border:0;color:inherit;width:44px;height:44px;cursor:pointer}
+.burger span{display:block;width:24px;height:2px;background:currentColor;margin:5px auto;transition:.25s}
+.burger[aria-expanded=true] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded=true] span:nth-child(2){opacity:0}
+.burger[aria-expanded=true] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* hero */
+.hero{background:var(--ink);color:#fff;padding:calc(var(--nav-h) + 72px) 0 96px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;right:-180px;top:-120px;width:560px;height:560px;border-radius:50%;border:56px solid rgba(255,255,255,.05);box-shadow:0 0 0 90px rgba(255,255,255,.03)}
+.hero .wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:center;position:relative}
+.hero h1{font-size:clamp(2.6rem,7vw,5rem);font-weight:800;margin-bottom:22px}
+.hero p{font-size:1.15rem;color:#C8D8D4;max-width:46ch;margin-bottom:34px}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap}
+.tag{background:var(--bone);color:var(--ink-2);border-radius:14px;padding:28px 26px 24px;position:relative;transform:rotate(2deg);box-shadow:0 24px 50px rgba(0,0,0,.3);animation:swing 1.2s .3s both cubic-bezier(.2,1.4,.4,1)}
+.tag:before{content:"";position:absolute;top:14px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:var(--ink)}
+@keyframes swing{from{transform:rotate(-14deg) translateY(-30px);opacity:0}to{transform:rotate(2deg)}}
+.tag h3{font-size:1.3rem;margin:14px 0 10px}
+.status{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px}
+.dot{width:10px;height:10px;border-radius:50%;background:#999}
+.open .dot{background:#2E9E5B;box-shadow:0 0 0 4px rgba(46,158,91,.2)}
+.tag ul{list-style:none;padding:0;margin-top:12px;border-top:1px dashed var(--steel);font-size:15px}
+.tag li{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dashed var(--line)}
+
+/* services */
+#services{background:var(--bone)}
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.svc{background:#fff;border-radius:6px 22px 6px 22px;padding:28px;display:flex;flex-direction:column;gap:10px;border:1px solid var(--line)}
+.svc h3{font-size:1.35rem}
+.svc p{color:var(--steel);flex:1;font-size:16px}
+.svc .meta{display:flex;justify-content:space-between;align-items:baseline;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--steel)}
+.price{font:800 1.6rem var(--display);color:var(--ink)}
+.svc a{font-weight:600;color:var(--ink)}
+
+/* gallery */
+.gal{display:grid;gap:14px;grid-template-columns:repeat(4,1fr);grid-auto-rows:170px}
+.gal figure{position:relative;border-radius:16px;overflow:hidden;background:var(--ink);color:#fff}
+.gal figure:nth-child(1),.gal figure:nth-child(6){grid-column:span 2;grid-row:span 2}
+.gal img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.gal figure:hover img{transform:scale(1.05)}
+.gal .ph{position:absolute;inset:0;background:repeating-linear-gradient(135deg,var(--c1) 0 14px,var(--c2) 14px 28px)}
+.gal figcaption{position:absolute;left:0;right:0;bottom:0;padding:30px 14px 12px;font-size:14px;font-weight:500;background:linear-gradient(transparent,rgba(0,0,0,.65))}
+
+/* about */
+#about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.about-img{aspect-ratio:4/5;border-radius:200px 200px 16px 16px;background:var(--ink) center/cover;position:relative;overflow:hidden}
+.about-img .ph{position:absolute;inset:0;background:repeating-linear-gradient(135deg,#17504F 0 16px,#0F3D3E 16px 32px)}
+#about p{margin-bottom:16px;color:var(--steel)}
+.facts{display:flex;gap:36px;margin-top:28px;flex-wrap:wrap}
+.facts b{display:block;font:800 2rem var(--display);color:var(--ink)}
+.facts span{font-size:14px;color:var(--steel)}
+
+/* reviews */
+#reviews{background:var(--ink);color:#fff}
+#reviews .lead{color:#C8D8D4}
+.rev{background:var(--ink-2);border-radius:16px;padding:26px;display:flex;flex-direction:column;gap:14px}
+.stars{color:var(--accent);letter-spacing:3px}
+.rev p{font-size:16.5px}
+.rev cite{font-style:normal;font-weight:600;font-size:15px;color:#C8D8D4}
+
+/* contact */
+.contact{display:grid;grid-template-columns:1fr 1.2fr;gap:48px}
+.info dt{font-weight:600;margin-top:20px;color:var(--ink)}
+.info dd{color:var(--steel)}
+.hours{width:100%;border-collapse:collapse;margin-top:8px}
+.hours td{padding:7px 0;border-bottom:1px solid var(--line);color:var(--steel)}
+.hours td:last-child{text-align:right}
+.hours tr.today td{color:var(--ink);font-weight:600}
+.map{border-radius:16px;overflow:hidden;min-height:380px;background:var(--bone)}
+.map iframe{width:100%;height:100%;min-height:380px;border:0}
+
+footer{background:var(--ink-2);color:#9FB5B0;padding:32px 0;font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+
+@media (max-width:860px){
+  section{padding:64px 0}
+  .burger{display:block}
+  nav{position:fixed;top:var(--nav-h);left:0;right:0;background:var(--ink);padding:10px 20px 28px;transform:translateY(-120%);transition:transform .3s;visibility:hidden}
+  nav.open{transform:none;visibility:visible}
+  nav ul{flex-direction:column;align-items:stretch;gap:0}
+  nav li a{display:block;padding:15px 0;font-size:18px;border-bottom:1px solid rgba(255,255,255,.1)}
+  nav .btn{margin-top:18px;display:flex;border-bottom:2px solid transparent}
+  header.menu{background:var(--ink)}
+  .hero .wrap,#about .wrap,.contact{grid-template-columns:1fr;gap:36px}
+  .tag{max-width:360px}
+  .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
+  .about-img{max-width:380px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <div class="wrap">
+    <a href="#top" class="logo" data-bind="name"></a>
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+    <nav id="menu" aria-label="Main">
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="booking/" class="btn btn-primary">Book Appointment</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1 id="h-tag"></h1>
+      <p id="h-intro"></p>
+      <div class="cta-row">
+        <a href="booking/" class="btn btn-primary">Book Appointment</a>
+        <a href="#services" class="btn btn-ghost">See services and prices</a>
+      </div>
+    </div>
+    <aside class="tag" aria-label="Shop status">
+      <span class="status" id="status"><span class="dot"></span><span id="status-text">Checking hours…</span></span>
+      <h3>Today at the shop</h3>
+      <ul>
+        <li><span>Hours</span><b id="today-hours"></b></li>
+        <li><span>Call</span><a id="tag-phone" href="#"></a></li>
+        <li><span>Visit</span><a href="#contact">Get directions</a></li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <h2 class="rv">Services and prices</h2>
+    <p class="lead rv">Prices are for labour. Parts are extra and always quoted before we start.</p>
+    <div class="grid" id="svc-grid"></div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="wrap">
+    <h2 class="rv">Inside the workshop</h2>
+    <p class="lead rv">A look at the shop, the work and the people who ride with us.</p>
+    <div class="gal" id="gal"></div>
+  </div>
+</section>
+
+<section id="about" style="background:var(--bone)">
+  <div class="wrap">
+    <div class="about-img rv" id="about-img"></div>
+    <div class="rv">
+      <h2 id="about-title"></h2>
+      <div id="about-text"></div>
+      <div class="facts" id="facts"></div>
+      <a href="booking/" class="btn btn-dark" style="margin-top:28px">Book Appointment</a>
+    </div>
+  </div>
+</section>
+
+<section id="reviews">
+  <div class="wrap">
+    <h2 class="rv">What riders say</h2>
+    <p class="lead rv">Reviews from customers. Replace these with your own real reviews.</p>
+    <div class="grid" id="rev-grid"></div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <h2 class="rv">Visit or get in touch</h2>
+    <div class="contact">
+      <div class="info rv">
+        <dl>
+          <dt>Address</dt><dd id="c-address"></dd>
+          <dt>Phone</dt><dd><a id="c-phone" href="#"></a></dd>
+          <dt>Email</dt><dd><a id="c-email" href="#"></a></dd>
+        </dl>
+        <h3 style="margin-top:28px;font-size:1.2rem">Business hours</h3>
+        <table class="hours" id="hours"></table>
+        <a class="btn btn-dark" id="directions" target="_blank" rel="noopener" style="margin-top:22px">Get directions</a>
+      </div>
+      <div class="map rv" id="map"></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span id="f-name"></span><a href="#top">Back to top</a></div></footer>
+
+<script>
+/* =====================================================================
+   SITE CONFIG: edit your business details here.
+   (booking/index.html has its own small copy of name, phone, hours and
+   services. Keep those the same.)
+   ===================================================================== */
+const SITE = {
+  name: "Tidewater Bike Works",
+  tagline: "Repairs that get you riding again.",
+  intro: "Honest, fast bicycle repair for commuters, families and weekend riders. Most tune-ups are ready the same day.",
+  phone: "(503) 555-0142",
+  email: "hello@tidewaterbikes.example",
+  address: "214 Harbor Street, Portland, OR 97204",
+  mapQuery: "214 Harbor Street, Portland, OR 97204",
+  /* Hours: 0 = Sunday ... 6 = Saturday. [open, close] in 24h, or null for closed. */
+  hours: {
+    1:["08:00","18:00"],2:["08:00","18:00"],3:["08:00","18:00"],4:["08:00","19:00"],
+    5:["08:00","18:00"],6:["09:00","16:00"],0:null
+  },
+  services: [
+    {name:"Basic Tune-Up", price:"$65", time:"About 1 hour", text:"Brake and gear adjustment, tyre pressure, chain lube, bolt check and a safety once-over."},
+    {name:"Full Service", price:"$145", time:"Same or next day", text:"Complete strip-down clean, bearing checks, drivetrain degrease, wheel true and full adjustment."},
+    {name:"Flat Tyre Fix", price:"$20", time:"20 minutes", text:"Tube patch or replacement, tyre inspection and re-inflation. Walk-ins welcome."},
+    {name:"Brake Overhaul", price:"$55", time:"45 minutes", text:"New pads or cables, bleed for hydraulic systems, and rotor alignment."},
+    {name:"Wheel Truing", price:"$30", time:"30 minutes", text:"Straighten wobbles and tension spokes so your wheel runs true again."},
+    {name:"E-Bike Check", price:"$95", time:"About 1.5 hours", text:"Battery and motor health check, drivetrain wear inspection and a full safety adjustment."}
+  ],
+  /* Gallery: add "src":"images/photo.jpg" to show a real photo. Without src, a placeholder is shown. */
+  gallery: [
+    {caption:"The workshop floor"},{caption:"Fresh drivetrain"},{caption:"Wheel truing stand"},
+    {caption:"Custom commuter build"},{caption:"Brake bleed"},{caption:"Saturday rides"}
+  ],
+  about: {
+    title: "A neighbourhood shop that fixes it right.",
+    paragraphs: [
+      "Tidewater started in a garage in 2012 with one stand and a stack of borrowed tools. Today we are a team of four certified mechanics, still working on the same idea: explain the problem plainly, quote the price before we start, and never upsell what you do not need.",
+      "Every bike leaves with a test ride and a short note on what we did and what to watch next."
+    ],
+    image: "",
+    facts: [["12","years in business"],["9,000+","bikes repaired"],["4.9","average rating"]]
+  },
+  reviews: [
+    {name:"Maya R.", text:"Dropped my bike off at 9 and it rode like new by 4. Fair price and they showed me the worn parts."},
+    {name:"Daniel K.", text:"They fixed a shifting problem two other shops missed. Clear communication throughout."},
+    {name:"Priya S.", text:"Booked online, walked in, done. Friendly staff who never made me feel silly for asking basic questions."}
+  ]
+};
+
+/* ---- code below needs no editing ---- */
+const $ = s => document.querySelector(s);
+const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = t => { let [h,m] = t.split(":").map(Number); const ap = h>=12?"pm":"am"; h = h%12||12; return h+(m?":"+String(m).padStart(2,"0"):"")+ap; };
+const toMin = t => { const [a,b] = t.split(":").map(Number); return a*60+b; };
+const tel = SITE.phone.replace(/[^\d+]/g,"");
+
+document.title = SITE.name + " | " + SITE.tagline;
+document.querySelectorAll('[data-bind=name]').forEach(e => e.textContent = SITE.name);
+$("#h-tag").textContent = SITE.tagline; $("#h-intro").textContent = SITE.intro;
+$("#f-name").textContent = "© " + new Date().getFullYear() + " " + SITE.name;
+for (const id of ["#tag-phone","#c-phone"]) { $(id).textContent = SITE.phone; $(id).href = "tel:" + tel; }
+$("#c-email").textContent = SITE.email; $("#c-email").href = "mailto:" + SITE.email;
+$("#c-address").textContent = SITE.address;
+const mapQ = encodeURIComponent(SITE.mapQuery);
+$("#directions").href = "https://www.google.com/maps/dir/?api=1&destination=" + mapQ;
+$("#map").innerHTML = `<iframe title="Map of ${esc(SITE.name)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=${mapQ}&output=embed"></iframe>`;
+
+/* each "Book this service" link opens the booking page with that service preselected */
+$("#svc-grid").innerHTML = SITE.services.map(s => `
+  <article class="svc rv"><h3>${esc(s.name)}</h3><p>${esc(s.text)}</p>
+  <div class="meta"><span>${esc(s.time)}</span><span class="price">${esc(s.price)}</span></div>
+  <a href="booking/?service=${encodeURIComponent(s.name)}">Book this service</a></article>`).join("");
+
+const pal = [["#0F3D3E","#17504F"],["#5B6B70","#6B7C81"],["#8A6F12","#9C7F1A"],["#17504F","#1F6362"]];
+$("#gal").innerHTML = SITE.gallery.map((g,i) => {
+  const p = pal[i%pal.length];
+  return `<figure class="rv">${g.src ? `<img src="${esc(g.src)}" alt="${esc(g.caption)}" loading="lazy">` : `<div class="ph" style="--c1:${p[0]};--c2:${p[1]}"></div>`}<figcaption>${esc(g.caption)}</figcaption></figure>`;
+}).join("");
+
+$("#about-title").textContent = SITE.about.title;
+$("#about-text").innerHTML = SITE.about.paragraphs.map(p => `<p>${esc(p)}</p>`).join("");
+$("#facts").innerHTML = SITE.about.facts.map(f => `<div><b>${esc(f[0])}</b><span>${esc(f[1])}</span></div>`).join("");
+$("#about-img").innerHTML = SITE.about.image ? "" : '<div class="ph"></div>';
+if (SITE.about.image) $("#about-img").style.backgroundImage = `url("${SITE.about.image}")`;
+
+$("#rev-grid").innerHTML = SITE.reviews.map(r => `
+  <figure class="rev rv"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><p>${esc(r.text)}</p><cite>${esc(r.name)}</cite></figure>`).join("");
+
+const now = new Date(), today = now.getDay();
+$("#hours").innerHTML = [1,2,3,4,5,6,0].map(d => {
+  const h = SITE.hours[d];
+  return `<tr class="${d===today?"today":""}"><td>${DAYS[d]}</td><td>${h ? fmt(h[0])+" – "+fmt(h[1]) : "Closed"}</td></tr>`;
+}).join("");
+(function status(){
+  const h = SITE.hours[today], mins = now.getHours()*60+now.getMinutes();
+  $("#today-hours").textContent = h ? fmt(h[0])+" – "+fmt(h[1]) : "Closed";
+  const open = h && mins >= toMin(h[0]) && mins < toMin(h[1]);
+  $("#status").classList.toggle("open", !!open);
+  $("#status-text").textContent = open ? "Open now, closes " + fmt(h[1]) : "Closed right now";
+})();
+
+const header = $("header"), burger = $(".burger"), menu = $("#menu");
+const onScroll = () => header.classList.toggle("solid", scrollY > 30);
+addEventListener("scroll", onScroll, {passive:true}); onScroll();
+function setMenu(open){ menu.classList.toggle("open", open); burger.setAttribute("aria-expanded", open); burger.setAttribute("aria-label", open?"Close menu":"Open menu"); header.classList.toggle("menu", open); }
+burger.addEventListener("click", () => setMenu(burger.getAttribute("aria-expanded") !== "true"));
+menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
+
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold:.12});
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
